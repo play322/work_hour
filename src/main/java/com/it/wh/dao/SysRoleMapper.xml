@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.wh.dao.SysRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.it.wh.pojo.SysRole" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sr_name" property="srName" jdbcType="VARCHAR" />
+    <result column="sr_sign" property="srSign" jdbcType="VARCHAR" />
+    <result column="sr_remark" property="srRemark" jdbcType="VARCHAR" />
+    <result column="sr_create_uid" property="srCreateUid" jdbcType="BIGINT" />
+    <result column="sr_create_dt" property="srCreateDt" jdbcType="TIMESTAMP" />
+    <result column="sr_update_dt" property="srUpdateDt" jdbcType="TIMESTAMP" />
+    <result column="sr_update_uid" property="srUpdateUid" jdbcType="BIGINT" />
+    <result column="sr_issuperadmin" property="srIssuperadmin" jdbcType="CHAR" />
+    <result column="sr_issysadmin" property="srIssysadmin" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sr_name, sr_sign, sr_remark, sr_create_uid, sr_create_dt, sr_update_dt, sr_update_uid, 
+    sr_issuperadmin, sr_issysadmin
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.it.wh.pojo.SysRoleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.it.wh.pojo.SysRoleExample" >
+    delete from sys_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.it.wh.pojo.SysRole" >
+    insert into sys_role (id, sr_name, sr_sign, 
+      sr_remark, sr_create_uid, sr_create_dt, 
+      sr_update_dt, sr_update_uid, sr_issuperadmin, 
+      sr_issysadmin)
+    values (#{id,jdbcType=BIGINT}, #{srName,jdbcType=VARCHAR}, #{srSign,jdbcType=VARCHAR}, 
+      #{srRemark,jdbcType=VARCHAR}, #{srCreateUid,jdbcType=BIGINT}, #{srCreateDt,jdbcType=TIMESTAMP}, 
+      #{srUpdateDt,jdbcType=TIMESTAMP}, #{srUpdateUid,jdbcType=BIGINT}, #{srIssuperadmin,jdbcType=CHAR}, 
+      #{srIssysadmin,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.it.wh.pojo.SysRole" >
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="srName != null" >
+        sr_name,
+      </if>
+      <if test="srSign != null" >
+        sr_sign,
+      </if>
+      <if test="srRemark != null" >
+        sr_remark,
+      </if>
+      <if test="srCreateUid != null" >
+        sr_create_uid,
+      </if>
+      <if test="srCreateDt != null" >
+        sr_create_dt,
+      </if>
+      <if test="srUpdateDt != null" >
+        sr_update_dt,
+      </if>
+      <if test="srUpdateUid != null" >
+        sr_update_uid,
+      </if>
+      <if test="srIssuperadmin != null" >
+        sr_issuperadmin,
+      </if>
+      <if test="srIssysadmin != null" >
+        sr_issysadmin,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="srName != null" >
+        #{srName,jdbcType=VARCHAR},
+      </if>
+      <if test="srSign != null" >
+        #{srSign,jdbcType=VARCHAR},
+      </if>
+      <if test="srRemark != null" >
+        #{srRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="srCreateUid != null" >
+        #{srCreateUid,jdbcType=BIGINT},
+      </if>
+      <if test="srCreateDt != null" >
+        #{srCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="srUpdateDt != null" >
+        #{srUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="srUpdateUid != null" >
+        #{srUpdateUid,jdbcType=BIGINT},
+      </if>
+      <if test="srIssuperadmin != null" >
+        #{srIssuperadmin,jdbcType=CHAR},
+      </if>
+      <if test="srIssysadmin != null" >
+        #{srIssysadmin,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.it.wh.pojo.SysRoleExample" resultType="java.lang.Integer" >
+    select count(*) from sys_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_role
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.srName != null" >
+        sr_name = #{record.srName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srSign != null" >
+        sr_sign = #{record.srSign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srRemark != null" >
+        sr_remark = #{record.srRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srCreateUid != null" >
+        sr_create_uid = #{record.srCreateUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.srCreateDt != null" >
+        sr_create_dt = #{record.srCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.srUpdateDt != null" >
+        sr_update_dt = #{record.srUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.srUpdateUid != null" >
+        sr_update_uid = #{record.srUpdateUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.srIssuperadmin != null" >
+        sr_issuperadmin = #{record.srIssuperadmin,jdbcType=CHAR},
+      </if>
+      <if test="record.srIssysadmin != null" >
+        sr_issysadmin = #{record.srIssysadmin,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_role
+    set id = #{record.id,jdbcType=BIGINT},
+      sr_name = #{record.srName,jdbcType=VARCHAR},
+      sr_sign = #{record.srSign,jdbcType=VARCHAR},
+      sr_remark = #{record.srRemark,jdbcType=VARCHAR},
+      sr_create_uid = #{record.srCreateUid,jdbcType=BIGINT},
+      sr_create_dt = #{record.srCreateDt,jdbcType=TIMESTAMP},
+      sr_update_dt = #{record.srUpdateDt,jdbcType=TIMESTAMP},
+      sr_update_uid = #{record.srUpdateUid,jdbcType=BIGINT},
+      sr_issuperadmin = #{record.srIssuperadmin,jdbcType=CHAR},
+      sr_issysadmin = #{record.srIssysadmin,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.it.wh.pojo.SysRole" >
+    update sys_role
+    <set >
+      <if test="srName != null" >
+        sr_name = #{srName,jdbcType=VARCHAR},
+      </if>
+      <if test="srSign != null" >
+        sr_sign = #{srSign,jdbcType=VARCHAR},
+      </if>
+      <if test="srRemark != null" >
+        sr_remark = #{srRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="srCreateUid != null" >
+        sr_create_uid = #{srCreateUid,jdbcType=BIGINT},
+      </if>
+      <if test="srCreateDt != null" >
+        sr_create_dt = #{srCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="srUpdateDt != null" >
+        sr_update_dt = #{srUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="srUpdateUid != null" >
+        sr_update_uid = #{srUpdateUid,jdbcType=BIGINT},
+      </if>
+      <if test="srIssuperadmin != null" >
+        sr_issuperadmin = #{srIssuperadmin,jdbcType=CHAR},
+      </if>
+      <if test="srIssysadmin != null" >
+        sr_issysadmin = #{srIssysadmin,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.it.wh.pojo.SysRole" >
+    update sys_role
+    set sr_name = #{srName,jdbcType=VARCHAR},
+      sr_sign = #{srSign,jdbcType=VARCHAR},
+      sr_remark = #{srRemark,jdbcType=VARCHAR},
+      sr_create_uid = #{srCreateUid,jdbcType=BIGINT},
+      sr_create_dt = #{srCreateDt,jdbcType=TIMESTAMP},
+      sr_update_dt = #{srUpdateDt,jdbcType=TIMESTAMP},
+      sr_update_uid = #{srUpdateUid,jdbcType=BIGINT},
+      sr_issuperadmin = #{srIssuperadmin,jdbcType=CHAR},
+      sr_issysadmin = #{srIssysadmin,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

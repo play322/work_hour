@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.wh.dao.SysMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.it.wh.pojo.SysMenu" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sm_parent_id" property="smParentId" jdbcType="BIGINT" />
+    <result column="sm_name" property="smName" jdbcType="VARCHAR" />
+    <result column="sm_url" property="smUrl" jdbcType="VARCHAR" />
+    <result column="sm_perms" property="smPerms" jdbcType="VARCHAR" />
+    <result column="sm_type" property="smType" jdbcType="INTEGER" />
+    <result column="sm_icon" property="smIcon" jdbcType="VARCHAR" />
+    <result column="sm_order" property="smOrder" jdbcType="INTEGER" />
+    <result column="sm_create_dt" property="smCreateDt" jdbcType="TIMESTAMP" />
+    <result column="sm_create_uid" property="smCreateUid" jdbcType="BIGINT" />
+    <result column="sm_update_dt" property="smUpdateDt" jdbcType="TIMESTAMP" />
+    <result column="sm_update_uid" property="smUpdateUid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sm_parent_id, sm_name, sm_url, sm_perms, sm_type, sm_icon, sm_order, sm_create_dt, 
+    sm_create_uid, sm_update_dt, sm_update_uid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.it.wh.pojo.SysMenuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_menu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.it.wh.pojo.SysMenuExample" >
+    delete from sys_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.it.wh.pojo.SysMenu" >
+    insert into sys_menu (id, sm_parent_id, sm_name, 
+      sm_url, sm_perms, sm_type, 
+      sm_icon, sm_order, sm_create_dt, 
+      sm_create_uid, sm_update_dt, sm_update_uid
+      )
+    values (#{id,jdbcType=BIGINT}, #{smParentId,jdbcType=BIGINT}, #{smName,jdbcType=VARCHAR}, 
+      #{smUrl,jdbcType=VARCHAR}, #{smPerms,jdbcType=VARCHAR}, #{smType,jdbcType=INTEGER}, 
+      #{smIcon,jdbcType=VARCHAR}, #{smOrder,jdbcType=INTEGER}, #{smCreateDt,jdbcType=TIMESTAMP}, 
+      #{smCreateUid,jdbcType=BIGINT}, #{smUpdateDt,jdbcType=TIMESTAMP}, #{smUpdateUid,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.it.wh.pojo.SysMenu" >
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="smParentId != null" >
+        sm_parent_id,
+      </if>
+      <if test="smName != null" >
+        sm_name,
+      </if>
+      <if test="smUrl != null" >
+        sm_url,
+      </if>
+      <if test="smPerms != null" >
+        sm_perms,
+      </if>
+      <if test="smType != null" >
+        sm_type,
+      </if>
+      <if test="smIcon != null" >
+        sm_icon,
+      </if>
+      <if test="smOrder != null" >
+        sm_order,
+      </if>
+      <if test="smCreateDt != null" >
+        sm_create_dt,
+      </if>
+      <if test="smCreateUid != null" >
+        sm_create_uid,
+      </if>
+      <if test="smUpdateDt != null" >
+        sm_update_dt,
+      </if>
+      <if test="smUpdateUid != null" >
+        sm_update_uid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="smParentId != null" >
+        #{smParentId,jdbcType=BIGINT},
+      </if>
+      <if test="smName != null" >
+        #{smName,jdbcType=VARCHAR},
+      </if>
+      <if test="smUrl != null" >
+        #{smUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="smPerms != null" >
+        #{smPerms,jdbcType=VARCHAR},
+      </if>
+      <if test="smType != null" >
+        #{smType,jdbcType=INTEGER},
+      </if>
+      <if test="smIcon != null" >
+        #{smIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="smOrder != null" >
+        #{smOrder,jdbcType=INTEGER},
+      </if>
+      <if test="smCreateDt != null" >
+        #{smCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smCreateUid != null" >
+        #{smCreateUid,jdbcType=BIGINT},
+      </if>
+      <if test="smUpdateDt != null" >
+        #{smUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smUpdateUid != null" >
+        #{smUpdateUid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.it.wh.pojo.SysMenuExample" resultType="java.lang.Integer" >
+    select count(*) from sys_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_menu
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.smParentId != null" >
+        sm_parent_id = #{record.smParentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.smName != null" >
+        sm_name = #{record.smName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smUrl != null" >
+        sm_url = #{record.smUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smPerms != null" >
+        sm_perms = #{record.smPerms,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smType != null" >
+        sm_type = #{record.smType,jdbcType=INTEGER},
+      </if>
+      <if test="record.smIcon != null" >
+        sm_icon = #{record.smIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smOrder != null" >
+        sm_order = #{record.smOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.smCreateDt != null" >
+        sm_create_dt = #{record.smCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.smCreateUid != null" >
+        sm_create_uid = #{record.smCreateUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.smUpdateDt != null" >
+        sm_update_dt = #{record.smUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.smUpdateUid != null" >
+        sm_update_uid = #{record.smUpdateUid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_menu
+    set id = #{record.id,jdbcType=BIGINT},
+      sm_parent_id = #{record.smParentId,jdbcType=BIGINT},
+      sm_name = #{record.smName,jdbcType=VARCHAR},
+      sm_url = #{record.smUrl,jdbcType=VARCHAR},
+      sm_perms = #{record.smPerms,jdbcType=VARCHAR},
+      sm_type = #{record.smType,jdbcType=INTEGER},
+      sm_icon = #{record.smIcon,jdbcType=VARCHAR},
+      sm_order = #{record.smOrder,jdbcType=INTEGER},
+      sm_create_dt = #{record.smCreateDt,jdbcType=TIMESTAMP},
+      sm_create_uid = #{record.smCreateUid,jdbcType=BIGINT},
+      sm_update_dt = #{record.smUpdateDt,jdbcType=TIMESTAMP},
+      sm_update_uid = #{record.smUpdateUid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.it.wh.pojo.SysMenu" >
+    update sys_menu
+    <set >
+      <if test="smParentId != null" >
+        sm_parent_id = #{smParentId,jdbcType=BIGINT},
+      </if>
+      <if test="smName != null" >
+        sm_name = #{smName,jdbcType=VARCHAR},
+      </if>
+      <if test="smUrl != null" >
+        sm_url = #{smUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="smPerms != null" >
+        sm_perms = #{smPerms,jdbcType=VARCHAR},
+      </if>
+      <if test="smType != null" >
+        sm_type = #{smType,jdbcType=INTEGER},
+      </if>
+      <if test="smIcon != null" >
+        sm_icon = #{smIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="smOrder != null" >
+        sm_order = #{smOrder,jdbcType=INTEGER},
+      </if>
+      <if test="smCreateDt != null" >
+        sm_create_dt = #{smCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smCreateUid != null" >
+        sm_create_uid = #{smCreateUid,jdbcType=BIGINT},
+      </if>
+      <if test="smUpdateDt != null" >
+        sm_update_dt = #{smUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smUpdateUid != null" >
+        sm_update_uid = #{smUpdateUid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.it.wh.pojo.SysMenu" >
+    update sys_menu
+    set sm_parent_id = #{smParentId,jdbcType=BIGINT},
+      sm_name = #{smName,jdbcType=VARCHAR},
+      sm_url = #{smUrl,jdbcType=VARCHAR},
+      sm_perms = #{smPerms,jdbcType=VARCHAR},
+      sm_type = #{smType,jdbcType=INTEGER},
+      sm_icon = #{smIcon,jdbcType=VARCHAR},
+      sm_order = #{smOrder,jdbcType=INTEGER},
+      sm_create_dt = #{smCreateDt,jdbcType=TIMESTAMP},
+      sm_create_uid = #{smCreateUid,jdbcType=BIGINT},
+      sm_update_dt = #{smUpdateDt,jdbcType=TIMESTAMP},
+      sm_update_uid = #{smUpdateUid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

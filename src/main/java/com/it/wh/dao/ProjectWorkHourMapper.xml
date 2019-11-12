@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.wh.dao.ProjectWorkHourMapper" >
+  <resultMap id="BaseResultMap" type="com.it.wh.pojo.ProjectWorkHour" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="pui_pi_id" property="puiPiId" jdbcType="BIGINT" />
+    <result column="pui_su_id" property="puiSuId" jdbcType="BIGINT" />
+    <result column="pui_work_hour" property="puiWorkHour" jdbcType="DECIMAL" />
+    <result column="pui_input_dt" property="puiInputDt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, pui_pi_id, pui_su_id, pui_work_hour, pui_input_dt
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.it.wh.pojo.ProjectWorkHourExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project_work_hour
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_work_hour
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from project_work_hour
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.it.wh.pojo.ProjectWorkHourExample" >
+    delete from project_work_hour
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.it.wh.pojo.ProjectWorkHour" >
+    insert into project_work_hour (id, pui_pi_id, pui_su_id, 
+      pui_work_hour, pui_input_dt)
+    values (#{id,jdbcType=BIGINT}, #{puiPiId,jdbcType=BIGINT}, #{puiSuId,jdbcType=BIGINT}, 
+      #{puiWorkHour,jdbcType=DECIMAL}, #{puiInputDt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.it.wh.pojo.ProjectWorkHour" >
+    insert into project_work_hour
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="puiPiId != null" >
+        pui_pi_id,
+      </if>
+      <if test="puiSuId != null" >
+        pui_su_id,
+      </if>
+      <if test="puiWorkHour != null" >
+        pui_work_hour,
+      </if>
+      <if test="puiInputDt != null" >
+        pui_input_dt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="puiPiId != null" >
+        #{puiPiId,jdbcType=BIGINT},
+      </if>
+      <if test="puiSuId != null" >
+        #{puiSuId,jdbcType=BIGINT},
+      </if>
+      <if test="puiWorkHour != null" >
+        #{puiWorkHour,jdbcType=DECIMAL},
+      </if>
+      <if test="puiInputDt != null" >
+        #{puiInputDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.it.wh.pojo.ProjectWorkHourExample" resultType="java.lang.Integer" >
+    select count(*) from project_work_hour
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project_work_hour
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.puiPiId != null" >
+        pui_pi_id = #{record.puiPiId,jdbcType=BIGINT},
+      </if>
+      <if test="record.puiSuId != null" >
+        pui_su_id = #{record.puiSuId,jdbcType=BIGINT},
+      </if>
+      <if test="record.puiWorkHour != null" >
+        pui_work_hour = #{record.puiWorkHour,jdbcType=DECIMAL},
+      </if>
+      <if test="record.puiInputDt != null" >
+        pui_input_dt = #{record.puiInputDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project_work_hour
+    set id = #{record.id,jdbcType=BIGINT},
+      pui_pi_id = #{record.puiPiId,jdbcType=BIGINT},
+      pui_su_id = #{record.puiSuId,jdbcType=BIGINT},
+      pui_work_hour = #{record.puiWorkHour,jdbcType=DECIMAL},
+      pui_input_dt = #{record.puiInputDt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.it.wh.pojo.ProjectWorkHour" >
+    update project_work_hour
+    <set >
+      <if test="puiPiId != null" >
+        pui_pi_id = #{puiPiId,jdbcType=BIGINT},
+      </if>
+      <if test="puiSuId != null" >
+        pui_su_id = #{puiSuId,jdbcType=BIGINT},
+      </if>
+      <if test="puiWorkHour != null" >
+        pui_work_hour = #{puiWorkHour,jdbcType=DECIMAL},
+      </if>
+      <if test="puiInputDt != null" >
+        pui_input_dt = #{puiInputDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.it.wh.pojo.ProjectWorkHour" >
+    update project_work_hour
+    set pui_pi_id = #{puiPiId,jdbcType=BIGINT},
+      pui_su_id = #{puiSuId,jdbcType=BIGINT},
+      pui_work_hour = #{puiWorkHour,jdbcType=DECIMAL},
+      pui_input_dt = #{puiInputDt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--countWorkHour-->
+  <select id="countWorkHour" parameterType="map" resultType="int">
+    select count(*) from project_work_hour
+  </select>
+
+  <!--//查询所有工时
+    List<ProjectInfo> queryAllWorkHour(Map<String, Object> map);-->
+  <resultMap id="BaseResultMap2" type="com.it.wh.pojo.ProjectWorkHour" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="pui_pi_id" property="puiPiId" jdbcType="BIGINT" />
+    <result column="pui_su_id" property="puiSuId" jdbcType="BIGINT" />
+    <result column="pui_work_hour" property="puiWorkHour" jdbcType="DECIMAL" />
+    <result column="pui_input_dt" property="puiInputDt" jdbcType="TIMESTAMP" />
+    <result column="pi_name" property="piName" jdbcType="VARCHAR" />
+    <result column="su_name" property="suName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="queryAllWorkHour" parameterType="map" resultMap="BaseResultMap2">
+    SELECT w.`id`,u.`su_name`,p.`pi_name`,w.`pui_work_hour`,w.`pui_input_dt` FROM sys_user u,project_info p,project_work_hour w
+    WHERE u.`id`=w.`pui_su_id`AND  w.`pui_pi_id` = p.`id`
+      limit #{startIndex},#{pageRow}
+  </select>
+
+<!--查询单个-->
+  <select id="findByIdHour" parameterType="java.lang.Long" resultMap="BaseResultMap2">
+    SELECT w.`id`,u.`su_name`,u.`id` pui_su_id,p.`pi_name`,p.`id` pui_pi_id ,w.`pui_work_hour`,w.`pui_input_dt`
+      FROM sys_user u,project_info p,project_work_hour w
+      WHERE u.`id`=w.`pui_su_id`AND  w.`pui_pi_id` = p.`id` AND w.`id`=#{id}
+  </select>
+
+  <!--按任意时间段查询 queryAnyTime-->
+ <!-- <select id="queryAnyTime" parameterType="map" resultMap="BaseResultMap2">
+      SELECT u.`id`,u.`su_name`,p.`pi_name`,w.`pui_work_hour`,w.`pui_input_dt`
+        ,SUM(w.pui_work_hour) pui_pi_id  FROM sys_user u,project_info p,project_work_hour w
+        WHERE pui_input_dt BETWEEN #{startTime} AND #{endTime} and
+        u.`id`=w.`pui_su_id`AND  w.`pui_pi_id` = p.`id` AND w.`pui_su_id`=#{id}
+  </select>-->
+  <select id="queryAnyTime" parameterType="map" resultMap="BaseResultMap2">
+    SELECT u.`id`,u.`su_name`,p.`pi_name`,w.`pui_work_hour`,w.`pui_input_dt`
+    FROM sys_user u,project_info p,project_work_hour w
+    WHERE pui_input_dt BETWEEN #{startTime} AND #{endTime} and
+    u.`id`=w.`pui_su_id`AND  w.`pui_pi_id` = p.`id` AND w.`pui_su_id`=#{id}
+</select>
+<select id="queryAnyHours" parameterType="map" resultType="long">
+  SELECT SUM(pui_work_hour)
+  FROM sys_user u,project_info p,project_work_hour w
+  WHERE pui_input_dt BETWEEN #{startTime} AND #{endTime} and
+  u.`id`=w.`pui_su_id`AND  w.`pui_pi_id` = p.`id` AND w.`pui_su_id`=#{id}
+  </select>
+  <!-- //按周查询
+    List<ProjectWorkHour> queryWeek(Long id);-->
+  <select id="queryWeek" parameterType="long" resultMap="BaseResultMap2">
+    SELECT u.`id`,u.`su_name`,p.`pi_name`,SUM(pui_work_hour) pui_pi_id
+    FROM sys_user u,project_info p,project_work_hour w
+    WHERE u.`id`=w.`pui_su_id`AND  w.`pui_pi_id` = p.`id` AND w.`pui_su_id`=#{id}
+    AND  DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= DATE(w.`pui_input_dt`);
+  </select>
+<!--	//按月查询
+	ProjectWorkHour queryMonth(Long id);-->
+  <select id="queryMonth" parameterType="long" resultMap="BaseResultMap2">
+    SELECT u.`id`,u.`su_name`,p.`pi_name`,SUM(pui_work_hour) pui_pi_id
+    FROM sys_user u,project_info p,project_work_hour w
+    WHERE u.`id`=w.`pui_su_id`AND  w.`pui_pi_id` = p.`id` AND w.`pui_su_id`=#{id}
+    AND  DATE_SUB(CURDATE(), INTERVAL 7 MONTH) &lt;= DATE(w.`pui_input_dt`);
+  </select>
+</mapper>

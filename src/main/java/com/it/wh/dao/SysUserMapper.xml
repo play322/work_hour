@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.wh.dao.SysUserMapper" >
+  <resultMap id="BaseResultMap" type="com.it.wh.pojo.SysUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="su_name" property="suName" jdbcType="VARCHAR" />
+    <result column="su_login_name" property="suLoginName" jdbcType="VARCHAR" />
+    <result column="su_login_passwd" property="suLoginPasswd" jdbcType="VARCHAR" />
+    <result column="su_sex" property="suSex" jdbcType="TINYINT" />
+    <result column="su_birth_dt" property="suBirthDt" jdbcType="DATE" />
+    <result column="su_icon" property="suIcon" jdbcType="VARCHAR" />
+    <result column="su_address" property="suAddress" jdbcType="VARCHAR" />
+    <result column="su_province" property="suProvince" jdbcType="VARCHAR" />
+    <result column="su_city" property="suCity" jdbcType="VARCHAR" />
+    <result column="su_district" property="suDistrict" jdbcType="VARCHAR" />
+    <result column="su_dept_id" property="suDeptId" jdbcType="BIGINT" />
+    <result column="su_email" property="suEmail" jdbcType="VARCHAR" />
+    <result column="su_mobile" property="suMobile" jdbcType="VARCHAR" />
+    <result column="su_status" property="suStatus" jdbcType="TINYINT" />
+    <result column="su_create_uid" property="suCreateUid" jdbcType="TINYINT" />
+    <result column="su_create_dt" property="suCreateDt" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!--登录-->
+  <select id="login" resultMap="BaseResultMap" parameterType="com.it.wh.pojo.SysUser">
+     select * from  sys_user where su_login_name=#{suLoginName} and su_login_passwd=#{suLoginPasswd}
+  </select>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, su_name, su_login_name, su_login_passwd, su_sex, su_birth_dt, su_icon, su_address, 
+    su_province, su_city, su_district, su_dept_id, su_email, su_mobile, su_status, su_create_uid, 
+    su_create_dt
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.it.wh.pojo.SysUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.it.wh.pojo.SysUserExample" >
+    delete from sys_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.it.wh.pojo.SysUser" >
+    insert into sys_user (id, su_name, su_login_name, 
+      su_login_passwd, su_sex, su_birth_dt, 
+      su_icon, su_address, su_province, 
+      su_city, su_district, su_dept_id, 
+      su_email, su_mobile, su_status, 
+      su_create_uid, su_create_dt)
+    values (#{id,jdbcType=BIGINT}, #{suName,jdbcType=VARCHAR}, #{suLoginName,jdbcType=VARCHAR}, 
+      #{suLoginPasswd,jdbcType=VARCHAR}, #{suSex,jdbcType=TINYINT}, #{suBirthDt,jdbcType=DATE}, 
+      #{suIcon,jdbcType=VARCHAR}, #{suAddress,jdbcType=VARCHAR}, #{suProvince,jdbcType=VARCHAR}, 
+      #{suCity,jdbcType=VARCHAR}, #{suDistrict,jdbcType=VARCHAR}, #{suDeptId,jdbcType=BIGINT}, 
+      #{suEmail,jdbcType=VARCHAR}, #{suMobile,jdbcType=VARCHAR}, #{suStatus,jdbcType=TINYINT}, 
+      #{suCreateUid,jdbcType=TINYINT}, #{suCreateDt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.it.wh.pojo.SysUser" >
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="suName != null" >
+        su_name,
+      </if>
+      <if test="suLoginName != null" >
+        su_login_name,
+      </if>
+      <if test="suLoginPasswd != null" >
+        su_login_passwd,
+      </if>
+      <if test="suSex != null" >
+        su_sex,
+      </if>
+      <if test="suBirthDt != null" >
+        su_birth_dt,
+      </if>
+      <if test="suIcon != null" >
+        su_icon,
+      </if>
+      <if test="suAddress != null" >
+        su_address,
+      </if>
+      <if test="suProvince != null" >
+        su_province,
+      </if>
+      <if test="suCity != null" >
+        su_city,
+      </if>
+      <if test="suDistrict != null" >
+        su_district,
+      </if>
+      <if test="suDeptId != null" >
+        su_dept_id,
+      </if>
+      <if test="suEmail != null" >
+        su_email,
+      </if>
+      <if test="suMobile != null" >
+        su_mobile,
+      </if>
+      <if test="suStatus != null" >
+        su_status,
+      </if>
+      <if test="suCreateUid != null" >
+        su_create_uid,
+      </if>
+      <if test="suCreateDt != null" >
+        su_create_dt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="suName != null" >
+        #{suName,jdbcType=VARCHAR},
+      </if>
+      <if test="suLoginName != null" >
+        #{suLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="suLoginPasswd != null" >
+        #{suLoginPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="suSex != null" >
+        #{suSex,jdbcType=TINYINT},
+      </if>
+      <if test="suBirthDt != null" >
+        #{suBirthDt,jdbcType=DATE},
+      </if>
+      <if test="suIcon != null" >
+        #{suIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="suAddress != null" >
+        #{suAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="suProvince != null" >
+        #{suProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="suCity != null" >
+        #{suCity,jdbcType=VARCHAR},
+      </if>
+      <if test="suDistrict != null" >
+        #{suDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="suDeptId != null" >
+        #{suDeptId,jdbcType=BIGINT},
+      </if>
+      <if test="suEmail != null" >
+        #{suEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="suMobile != null" >
+        #{suMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="suStatus != null" >
+        #{suStatus,jdbcType=TINYINT},
+      </if>
+      <if test="suCreateUid != null" >
+        #{suCreateUid,jdbcType=TINYINT},
+      </if>
+      <if test="suCreateDt != null" >
+        #{suCreateDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.it.wh.pojo.SysUserExample" resultType="java.lang.Integer" >
+    select count(*) from sys_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.suName != null" >
+        su_name = #{record.suName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suLoginName != null" >
+        su_login_name = #{record.suLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suLoginPasswd != null" >
+        su_login_passwd = #{record.suLoginPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suSex != null" >
+        su_sex = #{record.suSex,jdbcType=TINYINT},
+      </if>
+      <if test="record.suBirthDt != null" >
+        su_birth_dt = #{record.suBirthDt,jdbcType=DATE},
+      </if>
+      <if test="record.suIcon != null" >
+        su_icon = #{record.suIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suAddress != null" >
+        su_address = #{record.suAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suProvince != null" >
+        su_province = #{record.suProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suCity != null" >
+        su_city = #{record.suCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suDistrict != null" >
+        su_district = #{record.suDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suDeptId != null" >
+        su_dept_id = #{record.suDeptId,jdbcType=BIGINT},
+      </if>
+      <if test="record.suEmail != null" >
+        su_email = #{record.suEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suMobile != null" >
+        su_mobile = #{record.suMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suStatus != null" >
+        su_status = #{record.suStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.suCreateUid != null" >
+        su_create_uid = #{record.suCreateUid,jdbcType=TINYINT},
+      </if>
+      <if test="record.suCreateDt != null" >
+        su_create_dt = #{record.suCreateDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_user
+    set id = #{record.id,jdbcType=BIGINT},
+      su_name = #{record.suName,jdbcType=VARCHAR},
+      su_login_name = #{record.suLoginName,jdbcType=VARCHAR},
+      su_login_passwd = #{record.suLoginPasswd,jdbcType=VARCHAR},
+      su_sex = #{record.suSex,jdbcType=TINYINT},
+      su_birth_dt = #{record.suBirthDt,jdbcType=DATE},
+      su_icon = #{record.suIcon,jdbcType=VARCHAR},
+      su_address = #{record.suAddress,jdbcType=VARCHAR},
+      su_province = #{record.suProvince,jdbcType=VARCHAR},
+      su_city = #{record.suCity,jdbcType=VARCHAR},
+      su_district = #{record.suDistrict,jdbcType=VARCHAR},
+      su_dept_id = #{record.suDeptId,jdbcType=BIGINT},
+      su_email = #{record.suEmail,jdbcType=VARCHAR},
+      su_mobile = #{record.suMobile,jdbcType=VARCHAR},
+      su_status = #{record.suStatus,jdbcType=TINYINT},
+      su_create_uid = #{record.suCreateUid,jdbcType=TINYINT},
+      su_create_dt = #{record.suCreateDt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.it.wh.pojo.SysUser" >
+    update sys_user
+    <set >
+      <if test="suName != null" >
+        su_name = #{suName,jdbcType=VARCHAR},
+      </if>
+      <if test="suLoginName != null" >
+        su_login_name = #{suLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="suLoginPasswd != null" >
+        su_login_passwd = #{suLoginPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="suSex != null" >
+        su_sex = #{suSex,jdbcType=TINYINT},
+      </if>
+      <if test="suBirthDt != null" >
+        su_birth_dt = #{suBirthDt,jdbcType=DATE},
+      </if>
+      <if test="suIcon != null" >
+        su_icon = #{suIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="suAddress != null" >
+        su_address = #{suAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="suProvince != null" >
+        su_province = #{suProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="suCity != null" >
+        su_city = #{suCity,jdbcType=VARCHAR},
+      </if>
+      <if test="suDistrict != null" >
+        su_district = #{suDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="suDeptId != null" >
+        su_dept_id = #{suDeptId,jdbcType=BIGINT},
+      </if>
+      <if test="suEmail != null" >
+        su_email = #{suEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="suMobile != null" >
+        su_mobile = #{suMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="suStatus != null" >
+        su_status = #{suStatus,jdbcType=TINYINT},
+      </if>
+      <if test="suCreateUid != null" >
+        su_create_uid = #{suCreateUid,jdbcType=TINYINT},
+      </if>
+      <if test="suCreateDt != null" >
+        su_create_dt = #{suCreateDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.it.wh.pojo.SysUser" >
+    update sys_user
+    set su_name = #{suName,jdbcType=VARCHAR},
+      su_login_name = #{suLoginName,jdbcType=VARCHAR},
+      su_login_passwd = #{suLoginPasswd,jdbcType=VARCHAR},
+      su_sex = #{suSex,jdbcType=TINYINT},
+      su_birth_dt = #{suBirthDt,jdbcType=DATE},
+      su_icon = #{suIcon,jdbcType=VARCHAR},
+      su_address = #{suAddress,jdbcType=VARCHAR},
+      su_province = #{suProvince,jdbcType=VARCHAR},
+      su_city = #{suCity,jdbcType=VARCHAR},
+      su_district = #{suDistrict,jdbcType=VARCHAR},
+      su_dept_id = #{suDeptId,jdbcType=BIGINT},
+      su_email = #{suEmail,jdbcType=VARCHAR},
+      su_mobile = #{suMobile,jdbcType=VARCHAR},
+      su_status = #{suStatus,jdbcType=TINYINT},
+      su_create_uid = #{suCreateUid,jdbcType=TINYINT},
+      su_create_dt = #{suCreateDt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <!--queryAllSysUser-->
+  <select id="queryAllSysUser" resultMap="BaseResultMap">
+    select * from sys_user
+  </select>
+</mapper>

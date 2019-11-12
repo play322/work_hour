@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.wh.dao.ProjectInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.it.wh.pojo.ProjectInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="pi_name" property="piName" jdbcType="VARCHAR" />
+    <result column="pi_department" property="piDepartment" jdbcType="VARCHAR" />
+    <result column="pi_create_id" property="piCreateId" jdbcType="BIGINT" />
+    <result column="pi_create_dt" property="piCreateDt" jdbcType="TIMESTAMP" />
+    <result column="pi_plan_start_dt" property="piPlanStartDt" jdbcType="TIMESTAMP" />
+    <result column="pi_plan_end_dt" property="piPlanEndDt" jdbcType="TIMESTAMP" />
+    <result column="pi_real_start_dt" property="piRealStartDt" jdbcType="TIMESTAMP" />
+    <result column="pi_real_end_dt" property="piRealEndDt" jdbcType="TIMESTAMP" />
+    <result column="pi_state" property="piState" jdbcType="TINYINT" />
+    <result column="pi_users" property="piUsers" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- 查询所有带分页-->
+<!--  <select id="queryAllProjectInfoPage" parameterType="map" resultMap="BaseResultMap" >
+        SELECT * FROM project_info limit #{startIndex},#{pageRow}
+    </select>-->
+  <select id="queryAllProjectInfoPage" parameterType="map" resultMap="BaseResultMap"  >
+  <!--SELECT * FROM project_info where pi_name like "%${piName}%" limit #{startIndex},#{pageRow}-->
+      select * from project_info
+      <where>
+          <if test="piName!=null">
+            pi_name like "%${piName}%"
+          </if>
+      </where>
+      limit #{startIndex},#{pageRow}
+  </select>
+
+  <!--分页使用的查询所有数量-->
+  <select id="queryProjectInfoCount" parameterType="map" resultType="Integer">
+        SELECT count(*) FROM project_info
+  </select>
+
+<!--  &lt;!&ndash;批量删除&ndash;&gt;
+  <select id="deleteProjectInfo" parameterType=""-->
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, pi_name, pi_department, pi_create_id, pi_create_dt, pi_plan_start_dt, pi_plan_end_dt, 
+    pi_real_start_dt, pi_real_end_dt, pi_state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.it.wh.pojo.ProjectInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from project_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.it.wh.pojo.ProjectInfoExample" >
+    delete from project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.it.wh.pojo.ProjectInfo" >
+    insert into project_info (id, pi_name, pi_department, 
+      pi_create_id, pi_create_dt, pi_plan_start_dt, 
+      pi_plan_end_dt, pi_real_start_dt, pi_real_end_dt, 
+      pi_state,pi_users)
+    values (#{id,jdbcType=BIGINT}, #{piName,jdbcType=VARCHAR}, #{piDepartment,jdbcType=VARCHAR}, 
+      #{piCreateId,jdbcType=BIGINT}, #{piCreateDt,jdbcType=TIMESTAMP}, #{piPlanStartDt,jdbcType=TIMESTAMP}, 
+      #{piPlanEndDt,jdbcType=TIMESTAMP}, #{piRealStartDt,jdbcType=TIMESTAMP}, #{piRealEndDt,jdbcType=TIMESTAMP}, 
+      #{piState,jdbcType=TINYINT}, #{piUsers,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.it.wh.pojo.ProjectInfo" >
+    insert into project_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="piName != null" >
+        pi_name,
+      </if>
+      <if test="piDepartment != null" >
+        pi_department,
+      </if>
+      <if test="piCreateId != null" >
+        pi_create_id,
+      </if>
+      <if test="piCreateDt != null" >
+        pi_create_dt,
+      </if>
+      <if test="piPlanStartDt != null" >
+        pi_plan_start_dt,
+      </if>
+      <if test="piPlanEndDt != null" >
+        pi_plan_end_dt,
+      </if>
+      <if test="piRealStartDt != null" >
+        pi_real_start_dt,
+      </if>
+      <if test="piRealEndDt != null" >
+        pi_real_end_dt,
+      </if>
+      <if test="piState != null" >
+        pi_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="piName != null" >
+        #{piName,jdbcType=VARCHAR},
+      </if>
+      <if test="piDepartment != null" >
+        #{piDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="piCreateId != null" >
+        #{piCreateId,jdbcType=BIGINT},
+      </if>
+      <if test="piCreateDt != null" >
+        #{piCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piPlanStartDt != null" >
+        #{piPlanStartDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piPlanEndDt != null" >
+        #{piPlanEndDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piRealStartDt != null" >
+        #{piRealStartDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piRealEndDt != null" >
+        #{piRealEndDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piState != null" >
+        #{piState,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.it.wh.pojo.ProjectInfoExample" resultType="java.lang.Integer" >
+    select count(*) from project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.piName != null" >
+        pi_name = #{record.piName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.piDepartment != null" >
+        pi_department = #{record.piDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.piCreateId != null" >
+        pi_create_id = #{record.piCreateId,jdbcType=BIGINT},
+      </if>
+      <if test="record.piCreateDt != null" >
+        pi_create_dt = #{record.piCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.piPlanStartDt != null" >
+        pi_plan_start_dt = #{record.piPlanStartDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.piPlanEndDt != null" >
+        pi_plan_end_dt = #{record.piPlanEndDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.piRealStartDt != null" >
+        pi_real_start_dt = #{record.piRealStartDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.piRealEndDt != null" >
+        pi_real_end_dt = #{record.piRealEndDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.piState != null" >
+        pi_state = #{record.piState,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project_info
+    set id = #{record.id,jdbcType=BIGINT},
+      pi_name = #{record.piName,jdbcType=VARCHAR},
+      pi_department = #{record.piDepartment,jdbcType=VARCHAR},
+      pi_create_id = #{record.piCreateId,jdbcType=BIGINT},
+      pi_create_dt = #{record.piCreateDt,jdbcType=TIMESTAMP},
+      pi_plan_start_dt = #{record.piPlanStartDt,jdbcType=TIMESTAMP},
+      pi_plan_end_dt = #{record.piPlanEndDt,jdbcType=TIMESTAMP},
+      pi_real_start_dt = #{record.piRealStartDt,jdbcType=TIMESTAMP},
+      pi_real_end_dt = #{record.piRealEndDt,jdbcType=TIMESTAMP},
+      pi_state = #{record.piState,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.it.wh.pojo.ProjectInfo" >
+    update project_info
+    <set >
+      <if test="piName != null" >
+        pi_name = #{piName,jdbcType=VARCHAR},
+      </if>
+      <if test="piDepartment != null" >
+        pi_department = #{piDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="piCreateId != null" >
+        pi_create_id = #{piCreateId,jdbcType=BIGINT},
+      </if>
+      <if test="piCreateDt != null" >
+        pi_create_dt = #{piCreateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piPlanStartDt != null" >
+        pi_plan_start_dt = #{piPlanStartDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piPlanEndDt != null" >
+        pi_plan_end_dt = #{piPlanEndDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piRealStartDt != null" >
+        pi_real_start_dt = #{piRealStartDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piRealEndDt != null" >
+        pi_real_end_dt = #{piRealEndDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="piState != null" >
+        pi_state = #{piState,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.it.wh.pojo.ProjectInfo" >
+    update project_info
+    set pi_name = #{piName,jdbcType=VARCHAR},
+      pi_department = #{piDepartment,jdbcType=VARCHAR},
+      pi_create_id = #{piCreateId,jdbcType=BIGINT},
+      pi_create_dt = #{piCreateDt,jdbcType=TIMESTAMP},
+      pi_plan_start_dt = #{piPlanStartDt,jdbcType=TIMESTAMP},
+      pi_plan_end_dt = #{piPlanEndDt,jdbcType=TIMESTAMP},
+      pi_real_start_dt = #{piRealStartDt,jdbcType=TIMESTAMP},
+      pi_real_end_dt = #{piRealEndDt,jdbcType=TIMESTAMP},
+      pi_state = #{piState,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 加载配置文件 -->
+   	<context:property-placeholder location="classpath:db.properties" />
+
+	<!-- 数据库连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- 连接池的最大数据库连接数 -->
+		<property name="maxActive" value="10" />
+		<!-- 最大空闲数 -->
+		<property name="maxIdle" value="5" />
+	</bean>
+
+	<!-- 配置Mybatis工厂   -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 配置mybatis核心配置文件   classpath不能省略-->
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<!-- 配置数据源 -->
+		<property name="dataSource" ref="dataSource" />
+	</bean>	
+	
+	<!-- Mapper动态代理开发  扫描  自动生成dao,mapper-->
+	<!-- 注入接口所在基本包，自动扫描包，自动扫描Mybatis工厂(可以注入工厂也可以不注入，会自动找)-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.it.wh.dao"></property>
+	</bean>
+
+	<!-- 配置service扫描包 -->
+	<!-- 开启注解扫描，到包里面扫描类、方法、属性上面是否有注解 -->
+	<context:component-scan base-package="com.it.wh.service" />
+
+	<!-- 开启事物注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- 事务管理器，依赖于数据源-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 数据源 -->
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	
+</beans>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.wh.dao.ProjectUpdateLogMapper" >
+  <resultMap id="BaseResultMap" type="com.it.wh.pojo.ProjectUpdateLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="pul_pi_id" property="pulPiId" jdbcType="BIGINT" />
+    <result column="pul_update_uid" property="pulUpdateUid" jdbcType="BIGINT" />
+    <result column="pul_update_dt" property="pulUpdateDt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.it.wh.pojo.ProjectUpdateLog" extends="BaseResultMap" >
+    <result column="pul_update_contents" property="pulUpdateContents" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, pul_pi_id, pul_update_uid, pul_update_dt
+  </sql>
+  <sql id="Blob_Column_List" >
+    pul_update_contents
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.it.wh.pojo.ProjectUpdateLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project_update_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.it.wh.pojo.ProjectUpdateLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project_update_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project_update_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from project_update_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.it.wh.pojo.ProjectUpdateLogExample" >
+    delete from project_update_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.it.wh.pojo.ProjectUpdateLog" >
+    insert into project_update_log (id, pul_pi_id, pul_update_uid, 
+      pul_update_dt, pul_update_contents)
+    values (#{id,jdbcType=BIGINT}, #{pulPiId,jdbcType=BIGINT}, #{pulUpdateUid,jdbcType=BIGINT}, 
+      #{pulUpdateDt,jdbcType=TIMESTAMP}, #{pulUpdateContents,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.it.wh.pojo.ProjectUpdateLog" >
+    insert into project_update_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pulPiId != null" >
+        pul_pi_id,
+      </if>
+      <if test="pulUpdateUid != null" >
+        pul_update_uid,
+      </if>
+      <if test="pulUpdateDt != null" >
+        pul_update_dt,
+      </if>
+      <if test="pulUpdateContents != null" >
+        pul_update_contents,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="pulPiId != null" >
+        #{pulPiId,jdbcType=BIGINT},
+      </if>
+      <if test="pulUpdateUid != null" >
+        #{pulUpdateUid,jdbcType=BIGINT},
+      </if>
+      <if test="pulUpdateDt != null" >
+        #{pulUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pulUpdateContents != null" >
+        #{pulUpdateContents,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.it.wh.pojo.ProjectUpdateLogExample" resultType="java.lang.Integer" >
+    select count(*) from project_update_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project_update_log
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.pulPiId != null" >
+        pul_pi_id = #{record.pulPiId,jdbcType=BIGINT},
+      </if>
+      <if test="record.pulUpdateUid != null" >
+        pul_update_uid = #{record.pulUpdateUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.pulUpdateDt != null" >
+        pul_update_dt = #{record.pulUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pulUpdateContents != null" >
+        pul_update_contents = #{record.pulUpdateContents,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update project_update_log
+    set id = #{record.id,jdbcType=BIGINT},
+      pul_pi_id = #{record.pulPiId,jdbcType=BIGINT},
+      pul_update_uid = #{record.pulUpdateUid,jdbcType=BIGINT},
+      pul_update_dt = #{record.pulUpdateDt,jdbcType=TIMESTAMP},
+      pul_update_contents = #{record.pulUpdateContents,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project_update_log
+    set id = #{record.id,jdbcType=BIGINT},
+      pul_pi_id = #{record.pulPiId,jdbcType=BIGINT},
+      pul_update_uid = #{record.pulUpdateUid,jdbcType=BIGINT},
+      pul_update_dt = #{record.pulUpdateDt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.it.wh.pojo.ProjectUpdateLog" >
+    update project_update_log
+    <set >
+      <if test="pulPiId != null" >
+        pul_pi_id = #{pulPiId,jdbcType=BIGINT},
+      </if>
+      <if test="pulUpdateUid != null" >
+        pul_update_uid = #{pulUpdateUid,jdbcType=BIGINT},
+      </if>
+      <if test="pulUpdateDt != null" >
+        pul_update_dt = #{pulUpdateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pulUpdateContents != null" >
+        pul_update_contents = #{pulUpdateContents,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.it.wh.pojo.ProjectUpdateLog" >
+    update project_update_log
+    set pul_pi_id = #{pulPiId,jdbcType=BIGINT},
+      pul_update_uid = #{pulUpdateUid,jdbcType=BIGINT},
+      pul_update_dt = #{pulUpdateDt,jdbcType=TIMESTAMP},
+      pul_update_contents = #{pulUpdateContents,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.it.wh.pojo.ProjectUpdateLog" >
+    update project_update_log
+    set pul_pi_id = #{pulPiId,jdbcType=BIGINT},
+      pul_update_uid = #{pulUpdateUid,jdbcType=BIGINT},
+      pul_update_dt = #{pulUpdateDt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
